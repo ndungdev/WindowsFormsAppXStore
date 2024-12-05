@@ -947,6 +947,35 @@ namespace WindowsFormsAppXStore
                 }
             }
 
+
+            public static Sale GetSaleById(int saleID)
+            {
+                Sale sale = null;
+
+                using (SqlConnection conn = Database.GetConnection())
+                {
+                    string query = "SELECT * FROM Sales WHERE SaleID = @SaleID";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@SaleID", saleID);
+
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        sale = new Sale
+                        {
+                            SaleID = Convert.ToInt32(reader["SaleID"]),
+                            SaleDate = Convert.ToDateTime(reader["SaleDate"]),
+                            TotalAmount = Convert.ToDecimal(reader["TotalAmount"]),
+                            EmployeeID = Convert.ToInt32(reader["EmployeeID"]),
+                            CustomerID = Convert.ToInt32(reader["CustomerID"])
+                        };
+                    }
+                }
+
+                return sale;
+            }
         }
         private void LoadSales()
         {
