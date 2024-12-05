@@ -52,7 +52,7 @@ namespace WindowsFormsAppXStore
         {
             Register Register = new Register();
             this.Hide();
-            Register.ShowDialog();
+            Register.Show();
         }
     }
 }

@@ -63,7 +63,7 @@ namespace WindowsFormsAppXStore
         {
             Login Login = new Login();
             this.Hide();
-            Login.ShowDialog();
+            Login.Show();
         }
     }
 }
