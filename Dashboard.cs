@@ -927,12 +927,14 @@ namespace WindowsFormsAppXStore
                 return sales;
             }
 
-            public static void AddSale(Sale sale)
+            public static int AddSale(Sale sale)
             {
                 using (SqlConnection conn = Database.GetConnection())
                 {
                     string query = @"INSERT INTO Sales (SaleDate, TotalAmount, EmployeeID, CustomerID) 
-                                 VALUES (@SaleDate, @TotalAmount, @EmployeeID, @CustomerID)";
+                             OUTPUT INSERTED.SaleID
+                             VALUES (@SaleDate, @TotalAmount, @EmployeeID, @CustomerID)";
+
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@SaleDate", sale.SaleDate);
                     cmd.Parameters.AddWithValue("@TotalAmount", sale.TotalAmount);
@@ -940,57 +942,11 @@ namespace WindowsFormsAppXStore
                     cmd.Parameters.AddWithValue("@CustomerID", sale.CustomerID);
 
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    int saleId = (int)cmd.ExecuteScalar(); // Return the generated SaleID
+                    return saleId;
                 }
             }
 
-            public static void UpdateSale(Sale sale)
-            {
-                using (SqlConnection conn = Database.GetConnection())
-                {
-                    string query = @"UPDATE Sales 
-                                 SET SaleDate = @SaleDate, TotalAmount = @TotalAmount, EmployeeID = @EmployeeID, CustomerID = @CustomerID
-                                 WHERE SaleID = @SaleID";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@SaleID", sale.SaleID);
-                    cmd.Parameters.AddWithValue("@SaleDate", sale.SaleDate);
-                    cmd.Parameters.AddWithValue("@TotalAmount", sale.TotalAmount);
-                    cmd.Parameters.AddWithValue("@EmployeeID", sale.EmployeeID);
-                    cmd.Parameters.AddWithValue("@CustomerID", sale.CustomerID);
-
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
-            }
-
-            public static Sale GetSaleById(int saleID)
-            {
-                Sale sale = null;
-
-                using (SqlConnection conn = Database.GetConnection())
-                {
-                    string query = "SELECT * FROM Sales WHERE SaleID = @SaleID";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@SaleID", saleID);
-
-                    conn.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    if (reader.Read())
-                    {
-                        sale = new Sale
-                        {
-                            SaleID = Convert.ToInt32(reader["SaleID"]),
-                            SaleDate = Convert.ToDateTime(reader["SaleDate"]),
-                            TotalAmount = Convert.ToDecimal(reader["TotalAmount"]),
-                            EmployeeID = Convert.ToInt32(reader["EmployeeID"]),
-                            CustomerID = Convert.ToInt32(reader["CustomerID"])
-                        };
-                    }
-                }
-
-                return sale;
-            }
         }
         private void LoadSales()
         {
@@ -1067,6 +1023,24 @@ namespace WindowsFormsAppXStore
 
                 return saleDetails;
             }
+            public static void AddSaleDetail(SaleDetail saleDetail)
+            {
+                using (SqlConnection conn = Database.GetConnection())
+                {
+                    string query = @"INSERT INTO SaleDetails (SaleID, ProductID, Quantity, SellingPrice, Subtotal) 
+                             VALUES (@SaleID, @ProductID, @Quantity, @SellingPrice, @Subtotal)";
+
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@SaleID", saleDetail.SaleID);
+                    cmd.Parameters.AddWithValue("@ProductID", saleDetail.ProductID);
+                    cmd.Parameters.AddWithValue("@Quantity", saleDetail.Quantity);
+                    cmd.Parameters.AddWithValue("@SellingPrice", saleDetail.SellingPrice);
+                    cmd.Parameters.AddWithValue("@Subtotal", saleDetail.Subtotal);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
         private void btnViewSale_Click(object sender, EventArgs e)
@@ -1081,6 +1055,23 @@ namespace WindowsFormsAppXStore
 
             SaleDetailsForm detailsForm = new SaleDetailsForm(selectedSale.SaleID);
             detailsForm.ShowDialog();
+        }
+
+        private void btnAddSale_Click(object sender, EventArgs e)
+        {
+            if (UserSession.Authority == "Full" || UserSession.Authority == "Sale")
+            {
+
+                AddSaleForm AddSaleForm = new AddSaleForm();
+                if (AddSaleForm.ShowDialog() == DialogResult.OK)
+                {
+                    LoadSales();
+                }
+            }
+            else
+            {
+                MessageBox.Show("You do not have permission to add customer.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

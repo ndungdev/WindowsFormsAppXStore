@@ -32,7 +32,6 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.txtUsername = new System.Windows.Forms.TextBox();
-            this.txtAuthority = new System.Windows.Forms.TextBox();
             this.txtPosition = new System.Windows.Forms.TextBox();
             this.txtEmployeeName = new System.Windows.Forms.TextBox();
             this.txtEmployeeCode = new System.Windows.Forms.TextBox();
@@ -42,6 +41,7 @@
             this.lblPosition = new System.Windows.Forms.Label();
             this.lblEmployeeName = new System.Windows.Forms.Label();
             this.lblEmployeeCode = new System.Windows.Forms.Label();
+            this.cbAuthority = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -77,13 +77,6 @@
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(169, 20);
             this.txtUsername.TabIndex = 24;
-            // 
-            // txtAuthority
-            // 
-            this.txtAuthority.Location = new System.Drawing.Point(143, 107);
-            this.txtAuthority.Name = "txtAuthority";
-            this.txtAuthority.Size = new System.Drawing.Size(169, 20);
-            this.txtAuthority.TabIndex = 23;
             // 
             // txtPosition
             // 
@@ -160,16 +153,29 @@
             this.lblEmployeeCode.TabIndex = 14;
             this.lblEmployeeCode.Text = "Employee Code";
             // 
+            // cbAuthority
+            // 
+            this.cbAuthority.FormattingEnabled = true;
+            this.cbAuthority.Items.AddRange(new object[] {
+            "Full",
+            "Warehouse",
+            "Sale",
+            "Employee"});
+            this.cbAuthority.Location = new System.Drawing.Point(143, 106);
+            this.cbAuthority.Name = "cbAuthority";
+            this.cbAuthority.Size = new System.Drawing.Size(169, 21);
+            this.cbAuthority.TabIndex = 28;
+            // 
             // EditEmployeeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(355, 251);
+            this.Controls.Add(this.cbAuthority);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUsername);
-            this.Controls.Add(this.txtAuthority);
             this.Controls.Add(this.txtPosition);
             this.Controls.Add(this.txtEmployeeName);
             this.Controls.Add(this.txtEmployeeCode);
@@ -194,7 +200,6 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.TextBox txtUsername;
-        private System.Windows.Forms.TextBox txtAuthority;
         private System.Windows.Forms.TextBox txtPosition;
         private System.Windows.Forms.TextBox txtEmployeeName;
         private System.Windows.Forms.TextBox txtEmployeeCode;
@@ -204,5 +209,6 @@
         private System.Windows.Forms.Label lblPosition;
         private System.Windows.Forms.Label lblEmployeeName;
         private System.Windows.Forms.Label lblEmployeeCode;
+        private System.Windows.Forms.ComboBox cbAuthority;
     }
 }

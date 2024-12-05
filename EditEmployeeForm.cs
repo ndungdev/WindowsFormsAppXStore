@@ -26,7 +26,7 @@ namespace WindowsFormsAppXStore
             txtEmployeeCode.Text = _employee.EmployeeCode;
             txtEmployeeName.Text = _employee.EmployeeName;
             txtPosition.Text = _employee.Position;
-            txtAuthority.Text = _employee.Authority;
+            cbAuthority.Text = _employee.Authority;
             txtUsername.Text = _employee.Username;
         }
 
@@ -36,7 +36,7 @@ namespace WindowsFormsAppXStore
             {
                 _employee.EmployeeName = txtEmployeeName.Text.Trim();
                 _employee.Position = txtPosition.Text.Trim();
-                _employee.Authority = txtAuthority.Text.Trim();
+                _employee.Authority = cbAuthority.Text.Trim();
                 _employee.Username = txtUsername.Text.Trim();
 
                 EmployeeService.UpdateEmployee(_employee);

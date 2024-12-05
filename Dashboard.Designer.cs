@@ -56,6 +56,7 @@
             this.dataGridViewSales = new System.Windows.Forms.DataGridView();
             this.lblDashboard = new System.Windows.Forms.Label();
             this.btnLogout = new System.Windows.Forms.Button();
+            this.btnAddSale = new System.Windows.Forms.Button();
             this.tabDashboard.SuspendLayout();
             this.tabProducts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProDucts)).BeginInit();
@@ -285,6 +286,7 @@
             // tabSales
             // 
             this.tabSales.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.tabSales.Controls.Add(this.btnAddSale);
             this.tabSales.Controls.Add(this.txtSearchSale);
             this.tabSales.Controls.Add(this.btnViewSale);
             this.tabSales.Controls.Add(this.btnSearchSale);
@@ -356,6 +358,16 @@
             this.btnLogout.UseVisualStyleBackColor = false;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
+            // btnAddSale
+            // 
+            this.btnAddSale.Location = new System.Drawing.Point(574, 5);
+            this.btnAddSale.Name = "btnAddSale";
+            this.btnAddSale.Size = new System.Drawing.Size(112, 37);
+            this.btnAddSale.TabIndex = 12;
+            this.btnAddSale.Text = "Add";
+            this.btnAddSale.UseVisualStyleBackColor = true;
+            this.btnAddSale.Click += new System.EventHandler(this.btnAddSale_Click);
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -419,5 +431,6 @@
         private System.Windows.Forms.Button btnSearchSale;
         private System.Windows.Forms.DataGridView dataGridViewSales;
         private System.Windows.Forms.Button btnLogout;
+        private System.Windows.Forms.Button btnAddSale;
     }
 }

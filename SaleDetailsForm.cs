@@ -39,6 +39,7 @@ namespace WindowsFormsAppXStore
                 // Load Sale Details
                 var saleDetails = SaleDetailService.GetSaleDetailsBySaleId(_saleID);
                 dataGridViewSaleDetails.DataSource = saleDetails;
+                dataGridViewSaleDetails.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
             catch (Exception ex)
             {
