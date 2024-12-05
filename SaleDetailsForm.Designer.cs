@@ -58,7 +58,9 @@
             this.ClientSize = new System.Drawing.Size(800, 270);
             this.Controls.Add(this.lblSaleInfo);
             this.Controls.Add(this.dataGridViewSaleDetails);
+            this.MaximizeBox = false;
             this.Name = "SaleDetailsForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SaleDetailsForm";
             this.Load += new System.EventHandler(this.SaleDetailsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSaleDetails)).EndInit();

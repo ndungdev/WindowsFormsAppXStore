@@ -167,7 +167,9 @@
             this.Controls.Add(this.lblEmployee);
             this.Controls.Add(this.lblCustomer);
             this.Controls.Add(this.lblSaleDate);
+            this.MaximizeBox = false;
             this.Name = "AddSaleForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AddSaleForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSaleDetails)).EndInit();
             this.ResumeLayout(false);

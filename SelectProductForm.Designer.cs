@@ -92,7 +92,9 @@
             this.Controls.Add(this.lblQuantity);
             this.Controls.Add(this.txtQuantity);
             this.Controls.Add(this.dataGridViewProducts);
+            this.MaximizeBox = false;
             this.Name = "SelectProductForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SelectProductForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProducts)).EndInit();
             this.ResumeLayout(false);
