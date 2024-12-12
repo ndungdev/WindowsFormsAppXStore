@@ -50,13 +50,15 @@
             this.btnSearchCustomer = new System.Windows.Forms.Button();
             this.dataGridViewCustomers = new System.Windows.Forms.DataGridView();
             this.tabSales = new System.Windows.Forms.TabPage();
+            this.btnDeleteSale = new System.Windows.Forms.Button();
+            this.btnAddSale = new System.Windows.Forms.Button();
             this.txtSearchSale = new System.Windows.Forms.TextBox();
             this.btnViewSale = new System.Windows.Forms.Button();
             this.btnSearchSale = new System.Windows.Forms.Button();
             this.dataGridViewSales = new System.Windows.Forms.DataGridView();
             this.lblDashboard = new System.Windows.Forms.Label();
             this.btnLogout = new System.Windows.Forms.Button();
-            this.btnAddSale = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.tabDashboard.SuspendLayout();
             this.tabProducts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProDucts)).BeginInit();
@@ -286,6 +288,7 @@
             // tabSales
             // 
             this.tabSales.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.tabSales.Controls.Add(this.btnDeleteSale);
             this.tabSales.Controls.Add(this.btnAddSale);
             this.tabSales.Controls.Add(this.txtSearchSale);
             this.tabSales.Controls.Add(this.btnViewSale);
@@ -298,6 +301,26 @@
             this.tabSales.TabIndex = 3;
             this.tabSales.Text = "Sales";
             // 
+            // btnDeleteSale
+            // 
+            this.btnDeleteSale.Location = new System.Drawing.Point(695, 5);
+            this.btnDeleteSale.Name = "btnDeleteSale";
+            this.btnDeleteSale.Size = new System.Drawing.Size(112, 37);
+            this.btnDeleteSale.TabIndex = 13;
+            this.btnDeleteSale.Text = "Delete";
+            this.btnDeleteSale.UseVisualStyleBackColor = true;
+            this.btnDeleteSale.Click += new System.EventHandler(this.btnDeleteSale_Click);
+            // 
+            // btnAddSale
+            // 
+            this.btnAddSale.Location = new System.Drawing.Point(459, 4);
+            this.btnAddSale.Name = "btnAddSale";
+            this.btnAddSale.Size = new System.Drawing.Size(112, 37);
+            this.btnAddSale.TabIndex = 12;
+            this.btnAddSale.Text = "Add";
+            this.btnAddSale.UseVisualStyleBackColor = true;
+            this.btnAddSale.Click += new System.EventHandler(this.btnAddSale_Click);
+            // 
             // txtSearchSale
             // 
             this.txtSearchSale.Location = new System.Drawing.Point(121, 5);
@@ -307,7 +330,7 @@
             // 
             // btnViewSale
             // 
-            this.btnViewSale.Location = new System.Drawing.Point(692, 5);
+            this.btnViewSale.Location = new System.Drawing.Point(577, 5);
             this.btnViewSale.Name = "btnViewSale";
             this.btnViewSale.Size = new System.Drawing.Size(112, 37);
             this.btnViewSale.TabIndex = 10;
@@ -358,15 +381,18 @@
             this.btnLogout.UseVisualStyleBackColor = false;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
-            // btnAddSale
+            // btnRefresh
             // 
-            this.btnAddSale.Location = new System.Drawing.Point(574, 5);
-            this.btnAddSale.Name = "btnAddSale";
-            this.btnAddSale.Size = new System.Drawing.Size(112, 37);
-            this.btnAddSale.TabIndex = 12;
-            this.btnAddSale.Text = "Add";
-            this.btnAddSale.UseVisualStyleBackColor = true;
-            this.btnAddSale.Click += new System.EventHandler(this.btnAddSale_Click);
+            this.btnRefresh.BackColor = System.Drawing.Color.SlateBlue;
+            this.btnRefresh.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btnRefresh.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.btnRefresh.Location = new System.Drawing.Point(700, 74);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(103, 38);
+            this.btnRefresh.TabIndex = 4;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = false;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // Dashboard
             // 
@@ -374,6 +400,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.MenuBar;
             this.ClientSize = new System.Drawing.Size(815, 603);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.lblDashboard);
             this.Controls.Add(this.tabDashboard);
@@ -432,5 +459,7 @@
         private System.Windows.Forms.DataGridView dataGridViewSales;
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.Button btnAddSale;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Button btnDeleteSale;
     }
 }

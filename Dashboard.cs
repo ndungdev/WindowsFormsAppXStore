@@ -695,6 +695,7 @@ namespace WindowsFormsAppXStore
                         EmployeeService.DeleteEmployee(selectedEmployee.EmployeeID);
                         MessageBox.Show("Employee deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadEmployees();
+                        LoadSales();
                     }
                     catch (Exception ex)
                     {
@@ -798,10 +799,11 @@ namespace WindowsFormsAppXStore
             {
                 using (var connection = Database.GetConnection())
                 {
-                    string query = "UPDATE Customer SET CustomerName = @Name, PhoneNumber = @Phone, Address = @Address WHERE CustomerID = @ID";
+                    string query = "UPDATE Customer SET CustomerCode = @Code, CustomerName = @Name, PhoneNumber = @Phone, Address = @Address WHERE CustomerID = @ID";
                     using (var command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@ID", customer.CustomerID);
+                        command.Parameters.AddWithValue("@Code", customer.CustomerCode);
                         command.Parameters.AddWithValue("@Name", customer.CustomerName);
                         command.Parameters.AddWithValue("@Phone", customer.PhoneNumber);
                         command.Parameters.AddWithValue("@Address", customer.Address);
@@ -976,6 +978,36 @@ namespace WindowsFormsAppXStore
 
                 return sale;
             }
+
+            public static void DeleteSale(int saleId)
+            {
+                using (SqlConnection conn = Database.GetConnection())
+                {
+                    try
+                    {
+                        conn.Open();
+                        SqlTransaction transaction = conn.BeginTransaction();
+
+                        // Xóa SaleDetails trước
+                        string deleteDetailsQuery = "DELETE FROM SaleDetails WHERE SaleID = @SaleID";
+                        SqlCommand cmdDetails = new SqlCommand(deleteDetailsQuery, conn, transaction);
+                        cmdDetails.Parameters.AddWithValue("@SaleID", saleId);
+                        cmdDetails.ExecuteNonQuery();
+
+                        // Xóa Sale
+                        string deleteSaleQuery = "DELETE FROM Sales WHERE SaleID = @SaleID";
+                        SqlCommand cmdSale = new SqlCommand(deleteSaleQuery, conn, transaction);
+                        cmdSale.Parameters.AddWithValue("@SaleID", saleId);
+                        cmdSale.ExecuteNonQuery();
+
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        throw new Exception("Failed to delete sale. Ensure all related records are handled.");
+                    }
+                }
+            }
         }
         private void LoadSales()
         {
@@ -1020,6 +1052,74 @@ namespace WindowsFormsAppXStore
                 MessageBox.Show($"Error searching sales: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void btnViewSale_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewSales.CurrentRow == null)
+            {
+                MessageBox.Show("Please select a sale to view details.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var selectedSale = (Sale)dataGridViewSales.CurrentRow.DataBoundItem;
+
+            SaleDetailsForm detailsForm = new SaleDetailsForm(selectedSale.SaleID);
+            detailsForm.ShowDialog();
+        }
+
+        private void btnAddSale_Click(object sender, EventArgs e)
+        {
+            if (UserSession.Authority == "Full" || UserSession.Authority == "Sale")
+            {
+
+                AddSaleForm AddSaleForm = new AddSaleForm();
+                if (AddSaleForm.ShowDialog() == DialogResult.OK)
+                {
+                    LoadSales();
+                }
+            }
+            else
+            {
+                MessageBox.Show("You do not have permission to add sale.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnDeleteSale_Click(object sender, EventArgs e)
+        {
+            if (UserSession.Authority == "Full" || UserSession.Authority == "Sale")
+            {
+                if (dataGridViewSales.CurrentRow == null)
+                {
+                    MessageBox.Show("Please select a sale to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var selectedSale = (Sale)dataGridViewSales.CurrentRow.DataBoundItem;
+
+                var confirmResult = MessageBox.Show($"Are you sure to delete sale with ID '{selectedSale.SaleID}'?",
+                                                    "Confirm Delete",
+                                                    MessageBoxButtons.YesNo,
+                                                    MessageBoxIcon.Question);
+
+                if (confirmResult == DialogResult.Yes)
+                {
+                    try
+                    {
+                        SaleService.DeleteSale(selectedSale.SaleID);
+                        MessageBox.Show("Sale deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadSales(); // Tải lại danh sách sales
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Failed to delete sale: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("You do not have permission to delete sale.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         public static class SaleDetailService
         {
 
@@ -1071,36 +1171,12 @@ namespace WindowsFormsAppXStore
                 }
             }
         }
-
-        private void btnViewSale_Click(object sender, EventArgs e)
+        private void btnRefresh_Click(object sender, EventArgs e)
         {
-            if (dataGridViewSales.CurrentRow == null)
-            {
-                MessageBox.Show("Please select a sale to view details.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            var selectedSale = (Sale)dataGridViewSales.CurrentRow.DataBoundItem;
-
-            SaleDetailsForm detailsForm = new SaleDetailsForm(selectedSale.SaleID);
-            detailsForm.ShowDialog();
-        }
-
-        private void btnAddSale_Click(object sender, EventArgs e)
-        {
-            if (UserSession.Authority == "Full" || UserSession.Authority == "Sale")
-            {
-
-                AddSaleForm AddSaleForm = new AddSaleForm();
-                if (AddSaleForm.ShowDialog() == DialogResult.OK)
-                {
-                    LoadSales();
-                }
-            }
-            else
-            {
-                MessageBox.Show("You do not have permission to add customer.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            LoadCustomers();
+            LoadEmployees();
+            LoadProducts();
+            LoadSales();
         }
     }
 }

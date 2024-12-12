@@ -31,7 +31,8 @@ namespace WindowsFormsAppXStore
         private void btnSave_Click(object sender, EventArgs e)
         {
             // Validate input
-            if (string.IsNullOrEmpty(txtCustomerName.Text) ||
+            if (string.IsNullOrEmpty(txtCustomerCode.Text) ||
+                string.IsNullOrEmpty(txtCustomerName.Text) ||
                 string.IsNullOrEmpty(txtPhoneNumber.Text) ||
                 string.IsNullOrEmpty(txtAddress.Text))
             {
@@ -42,6 +43,7 @@ namespace WindowsFormsAppXStore
             try
             {
                 // Update customer instance
+                _customer.CustomerCode = txtCustomerCode.Text.Trim();
                 _customer.CustomerName = txtCustomerName.Text.Trim();
                 _customer.PhoneNumber = txtPhoneNumber.Text.Trim();
                 _customer.Address = txtAddress.Text.Trim();
